@@ -235,7 +235,12 @@ void addrecords()
 		scanf("%s",&s.phonenumber);
 		printf("\n Enter name: ");
 		fflush(stdin);
-		fgets(s.name, sizeof(s.name), stdin);
+		if (fgets(s.name, sizeof(s.name), stdin) != NULL) {
+		size_t length = strlen(s.name);
+        if (length > 0 && s.name[length - 1] == '\n') {
+            s.name[length - 1] = '\0';
+        }
+		}
 		printf("\n Enter amount: ");
 		scanf("%f",&s.amount);
 		fwrite(&s,sizeof(s),1,f);
@@ -406,6 +411,13 @@ void payment()
 			s.amount=s.amount-amt;
 			fseek(f,-size,SEEK_CUR);
 			fwrite(&s,sizeof(s),1,f);
+			printf("\n ***UPDATED DETAILS***");
+			printf("\n Phone No.: %s",s.phonenumber);
+			printf("\n Name: %s",s.name);
+			printf("\n Current amount: %f",s.amount);
+			printf("\n");
+			for(i=0;i<79;i++)
+				printf("-");
 			flag=0;
 			printf("\n\n");
 			printf("System Message: THANK YOU %s FOR YOUR TIMELY PAYMENTS!!",s.name);
@@ -424,7 +436,7 @@ void login()
 {
 	int a=0,i=0;
     char uname[10],c=' '; 
-    char pword[10],code[10];
+    char pword[10];
     char user[10]="shoury";
     char pass[10]="Shoury@26";
     do
@@ -443,10 +455,8 @@ void login()
 	    i++;
 	}
 	pword[i]='\0';
-	//char code=pword;
 	i=0;
-	//scanf("%s",&pword); 
-		if(strcmp(uname,"shoury")==0 && strcmp(pword,"Shoury@26")==0)
+		if(strcmp(uname,user)==0 && strcmp(pword,pass)==0)
 	{
 	printf("  \n\n\n       WELCOME TO OUR SYSTEM !!!! LOGIN IS SUCCESSFUL");
 	printf("\n\n\n\t\t\t\tPress any key to continue...");
@@ -463,14 +473,13 @@ void login()
 		
 	}
 }
-	while(a<=2);
+	while(a<=3);
 	if (a>2)
 	{
-		printf("\nSorry you have entered the wrong username and password for four times!!!");
 		
-		getch();
+		printf("\nSorry you have entered the wrong username and password for four times!!!");
+		Sleep(2000);
+		exit(0);
 		
 		}
-		system("cls");	
 }
-
