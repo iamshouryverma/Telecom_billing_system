@@ -1,6 +1,3 @@
-
-
-/* BROUGHT TO YOU BY code-projects.org */
 #include<stdio.h>
 #include<conio.h>
 #include<windows.h>
@@ -415,8 +412,8 @@ void login()
 	int a=0,i=0;
     char uname[10],c=' '; 
     char pword[10],code[10];
-    char user[10]="user";
-    char pass[10]="pass";
+    char user[10]="shoury";
+    char pass[10]="Shoury@26";
     do
 {
 	
