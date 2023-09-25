@@ -235,7 +235,7 @@ void addrecords()
 		scanf("%s",&s.phonenumber);
 		printf("\n Enter name: ");
 		fflush(stdin);
-		scanf("%s",&s.name);
+		fgets(s.name, sizeof(s.name), stdin);
 		printf("\n Enter amount: ");
 		scanf("%f",&s.amount);
 		fwrite(&s,sizeof(s),1,f);
@@ -342,6 +342,7 @@ void modifyrecords()
 		FILE *f;
 	char phonenumber[20];
 	long int size=sizeof(s);
+	int flag=1;
 	if((f=fopen("pro.txt","rb+"))==NULL)
 		exit(0);
 	system("cls");
@@ -362,9 +363,15 @@ void modifyrecords()
 			scanf("%f",&s.amount);
 			fseek(f,-size,SEEK_CUR);
 			fwrite(&s,sizeof(s),1,f);
+			flag=0;
 			break;
 		}
+		else if(flag==1)
+		{	system("cls");
+			printf("Requested Phone Number Not found in our database");
+		}
 	}
+	getch();
 	fclose(f);
 	system("cls");
 }
@@ -373,6 +380,7 @@ void payment()
 	FILE *f;
 	char phonenumber[20];
 	long int size=sizeof(s);
+	int flag=1;
 	float amt;
 	int i;
 	if((f=fopen("pro.txt","rb+"))==NULL)
@@ -398,11 +406,16 @@ void payment()
 			s.amount=s.amount-amt;
 			fseek(f,-size,SEEK_CUR);
 			fwrite(&s,sizeof(s),1,f);
+			flag=0;
+			printf("\n\n");
+			printf("System Message: THANK YOU %s FOR YOUR TIMELY PAYMENTS!!",s.name);
 			break;
 		}
+		else if(flag==1)
+		{	system("cls");
+			printf("Requested Phone Number Not found in our database");
+		}
 	}
-	printf("\n\n");
-	printf("System Message: THANK YOU %s FOR YOUR TIMELY PAYMENTS!!",s.name);
 	getch();
 	fclose(f);
 	system("cls");
